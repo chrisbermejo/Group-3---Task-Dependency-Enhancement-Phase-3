@@ -19,6 +19,8 @@ To add this new table, go to http://localhost/phpmyadmin/
 
 Follow the images
 <br>
+<p><p>
+<br>
 Click cscdb
 <br>
 <p><p>
