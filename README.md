@@ -21,11 +21,30 @@ Follow the images
 
 Click cscdb
 <br>
+<p><p>
+<br>
 <img src="https://cdn.discordapp.com/attachments/1028895750819692616/1101260952642519110/image.png" alt="alt text" width="400" height="400">
 <br>
 <p><p>
 <br>
 Click SQL
 <br>
+<p><p>
+<br>
 <img src="https://cdn.discordapp.com/attachments/1028895750819692616/1101261089464922112/image.png" alt="alt text" width="1000" height="400">
+<br>
+<p><p>
+<br>
+Enter the sql code above
+<br>
+<p><p>
+<br>
+<img src="https://cdn.discordapp.com/attachments/1028895750819692616/1101261278049222706/image.png" alt="alt text" width="1000" height="400">    
+    
+    
+    
+    
+    
+   
+
 
