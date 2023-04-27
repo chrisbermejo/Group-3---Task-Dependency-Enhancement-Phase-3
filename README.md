@@ -1,6 +1,7 @@
 # Group-3-Task-Dependency-Enhancement-Phase-3
 
 Delete the README.md file when moving the other files in the proj folder. 
+Everything should override the old files and the new files will just be added to the proj folder.
 
 This requires a new table called "task_dependencies"
 
@@ -42,8 +43,14 @@ Enter the sql code above
 <p><p>
 <br>
 <img src="https://cdn.discordapp.com/attachments/1028895750819692616/1101261278049222706/image.png" alt="alt text" width="1000" height="500">    
-    
-    
+<br>
+<p><p>
+<br>
+On the same page, scroll down and click GO button
+<br>
+<p><p>
+<br>
+<img src="https://cdn.discordapp.com/attachments/1028895750819692616/1101261553950523523/image.png" alt="alt text" width="1000" height="500">    
     
     
     
