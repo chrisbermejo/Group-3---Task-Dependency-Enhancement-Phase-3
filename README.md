@@ -14,4 +14,5 @@ CREATE TABLE task_dependencies (
     PRIMARY KEY (id)
 );
 ```
-![alt text](https://cdn.discordapp.com/attachments/1028895750819692616/1101260952642519110/image.png)
+<img src="https://cdn.discordapp.com/attachments/1028895750819692616/1101260952642519110/image.png" alt="alt text" width="300" height="200">
+
