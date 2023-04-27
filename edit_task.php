@@ -30,13 +30,14 @@
    dependency
 */
 include('include/header.php');
-//
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  if (!empty($_POST['taskid'])) {
-	if (!empty($_POST['title'])) {
-		if (!empty($_POST['description'])) {
-			if (!empty($_POST['projectid'])) {
-				if (!empty($_POST['memberid'])) {
+
+$old_dep = -1;
+
+function checkFormInputs() {
+    if (!empty($_POST['title'])) {
+        if (!empty($_POST['description'])) {
+            if (!empty($_POST['projectid'])) {
+                if (!empty($_POST['memberid'])) {
                     if (!empty($_POST['date_start'])) {
                         if (!empty($_POST['date_target'])) {
                             if (!empty($_POST['date_actual_start'])) {
@@ -44,102 +45,124 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     if (!empty($_POST['person_hours_estimate'])) {
                                         if (!empty($_POST['person_hours_actual'])) {
                                             if (!empty($_POST['status'])) {
-                                                if (!empty($_POST['dependency'])) {
-                            // Handle form data
-                            $taskid = $_POST['taskid'];
-                            $title = $_POST['title'];
-                            $description = $_POST['description'];
-                            $projectid = $_POST['projectid'];
-                            $memberid = $_POST['memberid'];
-                            $date_start = $_POST['date_start'];
-                            $date_target = $_POST['date_target'];
-                            $date_actual_start = $_POST['date_actual_start'];
-                            $date_actual_completion = $_POST['date_actual_completion'];
-                            $person_hours_estimate = $_POST['person_hours_estimate'];
-                            $person_hours_actual = $_POST['person_hours_actual'];
-                            $status =  $_POST['status'];
-                            $dependency =  $_POST['dependency'];
-                            $dbc = @mysqli_connect (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT) OR die ('Could not connect to MySQL: ' . mysqli_connect_error());
-
-                            // Run INSERT SQL
-                            $query = "UPDATE task " . 
-                                    " set title = '" . $title ."'," . 
-                                    " description = '" . $description ."'," . 
-                                    " projectid = ". $projectid .", " . 
-                                    " memberid = " . $memberid . ", " .
-                                    " date_start = '" . $date_start . "'," . 
-                                    " date_target = '" . $date_target . "'," . 
-                                    " date_actual_start = '" . $date_actual_start . "'," . 
-                                    " date_actual_completion = '" . $date_actual_completion . "'," . 
-                                    " person_hours_estimate = " . $person_hours_estimate . "," . 
-                                    " person_hours_actual = " . $person_hours_actual . "," . 
-                                    " status = '" . $status . "'," . 
-                                    " dependency = " . $dependency . 
-                                    " WHERE taskid = " . $taskid;
-                            if ($result = mysqli_query($dbc,$query)) {
-                                if ($result) {
-                                    print '<div class="container"><p>Task information has been updated in the database.</p></div>';
-                                } else {
-                                    print '<div class="container"><p>No rows were updated.</p></div>';
-                                }
-                            } else {
-                                print '<div class="container"><p>Could not update your task information to the database .  Error:<br>' . mysqli_error($dbc) . '.</p></div>';
-                            }
-                            mysqli_close($dbc); // Close the connection.
+                                                if ((!empty($_POST['dependency'])) || $_POST['dependency'] == 0) {
+                                                    $i = 0;
+                                                    $dependencynum =  $_POST['dependency'];
+                                                    if($_POST['dependency'] != 0){
+                                                        while($i < $dependencynum){
+                                                            if(empty($_POST["dependency_$i"])){
+                                                                $i++;
+                                                                print '<p style="color: red;">TaskID #' . $i . ' is not entered</p>';
+                                                                return false;
+                                                            }
+                                                            if(isset($_POST["dependency_$i"])){
+                                                                $id = $_POST["dependency_$i"];
+                                                                $dbc = @mysqli_connect (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT) OR die ('Could not connect to MySQL: ' . mysqli_connect_error());
+                                                                $check_query = "SELECT * FROM task WHERE taskid = '$id'";
+                                                                $result = mysqli_query($dbc, $check_query);
+                                                                if (mysqli_num_rows($result) < 1){
+                                                                    $i++;
+                                                                print '<p style="color: red;">TaskID #' . $i . ' is not valid</p>';
+                                                                    return false;
+                                                                }
+                                                            }
+                                                            $i++;
+                                                        };
+                                                    }
+                                                    return true;
                                                 } else {
-                                                    // Dependency not set
-                                                    print '<p style="color: red;">Dependencyl not entered.</p>';
+                                                    print '<p style="color: red;">Dependency not entered.</p>';
                                                 }
                                             } else {
-                                                // Status not set
                                                 print '<p style="color: red;">Status Hours Actual not entered.</p>';
                                             }
                                         } else {
-                                            // Person Hours Actual not set
                                             print '<p style="color: red;">Person Hours Actual not entered.</p>';
                                         }
                                     } else {
-                                        // Person Hours Estimate not set
                                         print '<p style="color: red;">Person Hours Estimate not entered.</p>';
                                     }
                                 } else {
-                                    // Actual Completion Date not set
                                     print '<p style="color: red;">Actual Completion Date not entered.</p>';
                                 }
                             } else {
-                                // Actual Start Date not set
                                 print '<p style="color: red;">Actual Start Date not entered.</p>';
                             }
                         } else {
-                            // Target Date not set
                             print '<p style="color: red;">Target Date not entered.</p>';
                         }
                     } else {
-                        // Start Date  not set
                         print '<p style="color: red;">Start Date not entered.</p>';
                     }
-				} else {
-					// memberid not set
-					print '<p style="color: red;">Memberid not entered.</p>';
-				}
-			} else {
-				// projectid not set
-				print '<p style="color: red;">Project id not entered.</p>';
+                } else {
+                    print '<p style="color: red;">Memberid not entered.</p>';
+                }
+            } else {
+                print '<p style="color: red;">Project id not entered.</p>';
+            }   
+        } else {
+            print '<p style="color: red;">Description not entered.</p>';
+        }
+    } else {
+        print '<p style="color: red;">Title not entered.</p>';
+    }
+    return false;
+}
 
-			}	
-		} else {
-			// description not set
-			print '<p style="color: red;">Description not entered.</p>';
+//
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $flag = checkFormInputs();
+    if($flag == true){
+        $taskid = $_POST['taskid'];
+        $title = $_POST['title'];
+        $description = $_POST['description'];
+        $projectid = $_POST['projectid'];
+        $memberid = $_POST['memberid'];
+        $date_start = $_POST['date_start'];
+        $date_target = $_POST['date_target'];
+        $date_actual_start = $_POST['date_actual_start'];
+        $date_actual_completion = $_POST['date_actual_completion'];
+        $person_hours_estimate = $_POST['person_hours_estimate'];
+        $person_hours_actual = $_POST['person_hours_actual'];
+        $status =  $_POST['status'];
+        $dependency =  $_POST['dependency'];
+        $dbc = @mysqli_connect (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT) OR die ('Could not connect to MySQL: ' . mysqli_connect_error());
 
-		}
-	} else {
-		// title not set
-		print '<p style="color: red;">title not entered.</p>';
-	}
-  } else {
-    // taskid not set
-    print '<p style="color: red;">taskid not entered.</p>';
-  }
+        // Run INSERT SQL
+        $query = "UPDATE task " . 
+                " set title = '" . $title ."'," . 
+                " description = '" . $description ."'," . 
+                " projectid = ". $projectid .", " . 
+                " memberid = " . $memberid . ", " .
+                " date_start = '" . $date_start . "'," . 
+                " date_target = '" . $date_target . "'," . 
+                " date_actual_start = '" . $date_actual_start . "'," . 
+                " date_actual_completion = '" . $date_actual_completion . "'," . 
+                " person_hours_estimate = " . $person_hours_estimate . "," . 
+                " person_hours_actual = " . $person_hours_actual . "," . 
+                " status = '" . $status . "'," . 
+                " dependency = " . $dependency . 
+                " WHERE taskid = " . $taskid;
+        $query2 = "DELETE FROM task_dependencies WHERE task_id = " . $taskid;
+        mysqli_query($dbc, $query2);
+        if($dependency > 0){
+            for($i = 0; $i < $dependency; $i++ ){
+                $dependency_id = $_POST["dependency_$i"];
+                $sql = "INSERT INTO task_dependencies (task_id, dependency_id) VALUES ('$taskid', '$dependency_id')";
+                $result = mysqli_query($dbc, $sql);
+            }
+        }
+        if ($result = mysqli_query($dbc,$query)) {
+            if ($result) {
+                print '<div class="container"><p>Task information has been updated in the database.</p></div>';
+            } else {
+                print '<div class="container"><p>No rows were updated.</p></div>';
+            }
+        } else {
+            print '<div class="container"><p>Could not update your task information to the database .  Error:<br>' . mysqli_error($dbc) . '.</p></div>';
+        }
+        mysqli_close($dbc); // Close the connection.
+    }
 } else {
 	// GET method and retrieve project data from projectid argument
   if (!empty($_GET['taskid'])) {
@@ -175,6 +198,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $_POST['person_hours_actual'] = $person_hours_actual;
       $_POST['status'] = $status;
       $_POST['dependency'] = $dependency;
+      $sql = "SELECT * FROM task_dependencies WHERE task_id = $taskid";
+      $result = $dbc->query($sql);
+      $i = 0;
+      while ($row = $result->fetch_assoc()) {
+            $_POST["dependency_$i"] = $row['dependency_id'];
+            $i++;
+      }
       
       mysqli_close($dbc); // Close the connection
     }
@@ -199,7 +229,17 @@ print '<h2>Task Form</h2>';
 <p><label>Person Hours Est<input type="number" name="person_hours_estimate" value="<?php if (isset($_POST['person_hours_estimate'])) {print $_POST['person_hours_estimate'];} ?>"></label></p>
 <p><label>Person Hours Actual<input type="number" name="person_hours_actual" value="<?php if (isset($_POST['person_hours_actual'])) {print $_POST['person_hours_actual'];} ?>"></label></p>
 <p><label>Status <input type="text" name="status" value="<?php if (isset($_POST['status'])) {print $_POST['status'];} ?>"></label></p>
-<p><label>Dependency <input type="number" name="dependency" value="<?php if (isset($_POST['dependency'])) {print $_POST['dependency'];}  ?>"></label></p>
+<p><label>Dependency <input type="number" id="myDependency" name="dependency" value="<?php if (isset($_POST['dependency'])) {print $_POST['dependency'];}  ?>"></label></p>
+<?php
+    if(isset($_POST['dependency'])){
+        for($i = 0; $i < $dependency; $i++){
+            $taskId = $i + 1;
+            $dependencyValue = isset($_POST["dependency_$i"]) ? $_POST["dependency_$i"] : '';
+            echo '<p class="dom-del"><label>TaskID #' . $taskId . '  <input type="number" name="dependency_' . $i . '" class="dom-button" value="' . $dependencyValue . '"></label></p>';
+        }
+    }
+?>
+<div id="task-dom-con"></div>
 <p><input type="submit" name="submit" value="Update"></p>
 </form>
 <?php
@@ -207,5 +247,6 @@ print '<h2>Task Form</h2>';
 ?>
 </div>
 </body>
+<script src="js/task_dependency.js"></script>
 </html>
 

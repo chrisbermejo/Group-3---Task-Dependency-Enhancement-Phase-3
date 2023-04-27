@@ -30,6 +30,8 @@
    dependency
 */
 include('include/header.php');
+
+$query_flag = false;
 //
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if (!empty($_POST['taskid'])) {
@@ -44,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     if (!empty($_POST['person_hours_estimate'])) {
                                         if (!empty($_POST['person_hours_actual'])) {
                                             if (!empty($_POST['status'])) {
-                                                if (!empty($_POST['dependency'])) {
+                                                if ((!empty($_POST['dependency'])) || $_POST['dependency'] == 0){
                             // Handle form data
                             $taskid = $_POST['taskid'];
                             $title = $_POST['title'];
@@ -62,10 +64,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             $dbc = @mysqli_connect (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT) OR die ('Could not connect to MySQL: ' . mysqli_connect_error());
 
                             // Run Delete SQL
-                            $query = "delete FROM task " . 
-                                    " WHERE taskid = " . $taskid;
-                            if ($result = mysqli_query($dbc,$query)) {
-                                if ($result) {
+                            $query = "delete FROM task " . " WHERE taskid = " . $taskid;
+                            if (mysqli_query($dbc,$query)) {
+                                $query_flag = true;
+                                $query = "SELECT task_id FROM task_dependencies WHERE dependency_id IS NULL";
+                                $result = mysqli_query($dbc, $query);   
+                                $num_rows = mysqli_num_rows($result);
+                                
+                                if($num_rows > 0){
+                                    while ($row = mysqli_fetch_array($result)) {
+                                    $update_query = "UPDATE task SET dependency = dependency - 1 WHERE taskid = " . $row['task_id'];
+                                    mysqli_query($dbc, $update_query);
+                                }
+                                $query2 = "DELETE FROM task_dependencies WHERE dependency_id IS NULL";
+                                $result2 = mysqli_query($dbc,$query2);
+                                }
+
+                                if (mysqli_affected_rows($dbc) > 0 || $query_flag) {
                                     print '<div class="container"><p>Task information has been deleted from the database.</p></div>';
                                 } else {
                                     print '<div class="container"><p>No rows were deleted.</p></div>';
@@ -76,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             mysqli_close($dbc); // Close the connection.
                                                 } else {
                                                     // Dependency not set
-                                                    print '<p style="color: red;">Dependencyl not entered.</p>';
+                                                    print '<p style="color: red;">Dependency not entered.</p>';
                                                 }
                                             } else {
                                                 // Status not set
