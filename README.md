@@ -35,7 +35,7 @@ Click SQL
 <br>
 <p><p>
 <br>
-<img src="https://cdn.discordapp.com/attachments/1028895750819692616/1101261089464922112/image.png" alt="alt text" width="1000" height="400">
+<img src="https://cdn.discordapp.com/attachments/1028895750819692616/1101261089464922112/image.png" alt="alt text" width="1000" height="200">
 <br>
 <p><p>
 <br>
