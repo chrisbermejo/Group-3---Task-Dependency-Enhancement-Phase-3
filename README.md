@@ -13,5 +13,5 @@ CREATE TABLE task_dependencies (
     FOREIGN KEY (dependency_id) REFERENCES task(taskid) ON DELETE SET NULL,
     PRIMARY KEY (id)
 );
-
+```
 ![alt text](https://cdn.discordapp.com/attachments/1028895750819692616/1101260952642519110/image.png)
