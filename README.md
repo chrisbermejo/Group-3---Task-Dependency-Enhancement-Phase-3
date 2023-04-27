@@ -39,7 +39,7 @@ Enter the sql code above
 <br>
 <p><p>
 <br>
-<img src="https://cdn.discordapp.com/attachments/1028895750819692616/1101261278049222706/image.png" alt="alt text" width="1000" height="400">    
+<img src="https://cdn.discordapp.com/attachments/1028895750819692616/1101261278049222706/image.png" alt="alt text" width="1000" height="500">    
     
     
     
