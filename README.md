@@ -1,6 +1,7 @@
 # Group-3-Task-Dependency-Enhancement-Phase-3
 
 Delete the README.md file when moving the other files in the proj folder. 
+<br>
 Everything should override the old files and the new files will just be added to the proj folder.
 
 This requires a new table called "task_dependencies"
