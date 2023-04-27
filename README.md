@@ -20,10 +20,12 @@ To add this new table, go to http://localhost/phpmyadmin/
 Follow the images
 
 Click cscdb
+<br>
 <img src="https://cdn.discordapp.com/attachments/1028895750819692616/1101260952642519110/image.png" alt="alt text" width="400" height="400">
 <br>
 <p><p>
 <br>
 Click SQL
-<img src="https://cdn.discordapp.com/attachments/1028895750819692616/1101261089464922112/image.png" alt="alt text" width="900" height="400">
+<br>
+<img src="https://cdn.discordapp.com/attachments/1028895750819692616/1101261089464922112/image.png" alt="alt text" width="1000" height="400">
 
