@@ -18,7 +18,7 @@ CREATE TABLE task_dependencies (
 To add this new table, go to http://localhost/phpmyadmin/
 
 Follow the images
-
+<br>
 Click cscdb
 <br>
 <p><p>
