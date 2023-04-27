@@ -51,7 +51,7 @@ On the same page, scroll down and click GO button
 <br>
 <p><p>
 <br>
-<img src="https://cdn.discordapp.com/attachments/1028895750819692616/1101261553950523523/image.png" alt="alt text" width="1000" height="200">    
+<img src="https://cdn.discordapp.com/attachments/1028895750819692616/1101261553950523523/image.png" alt="alt text" width="1000" height="250">    
     
     
     
